@@ -1,0 +1,32 @@
+//
+//  VirtualGamepadDriver.iig
+//  A virtual HID gamepad (no hardware) built on IOUserHIDDevice. The host app
+//  feeds it analog steer/throttle/brake + 4 buttons over an IOKit user client.
+//
+
+#ifndef VirtualGamepadDriver_iig
+#define VirtualGamepadDriver_iig
+
+#include <HIDDriverKit/IOUserHIDDevice.iig>
+
+class VirtualGamepadDriver: public IOUserHIDDevice
+{
+public:
+    virtual bool init() override;
+    virtual void free() override;
+
+    virtual kern_return_t Start(IOService * provider) override;
+    virtual kern_return_t Stop(IOService * provider) override;
+
+    virtual kern_return_t NewUserClient(uint32_t type, IOUserClient ** userClient) override;
+
+    // Called locally (same dext binary) by the user client to inject a report.
+    virtual kern_return_t postReport(const void * data, uint32_t length) LOCALONLY;
+
+protected:
+    virtual bool handleStart(IOService * provider) override;
+    virtual OSDictionary * newDeviceDescription(void) override;
+    virtual OSData * newReportDescriptor(void) override;
+};
+
+#endif /* VirtualGamepadDriver_iig */

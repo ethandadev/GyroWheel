@@ -1,0 +1,12 @@
+{
+  "/Users/ethanwang/GyroWheel/mac/Receiver/Sources/ReceiverApp.swift" : {
+    "abi-baseline-json" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver.abi.json",
+    "const-values" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver-primary.swiftconstvalues",
+    "dependencies" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver-primary.d",
+    "diagnostics" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver-primary.dia",
+    "objc-header" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver-Swift.h",
+    "swiftdoc" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver.swiftdoc",
+    "swiftmodule" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver.swiftmodule",
+    "swiftsourceinfo" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/GyroWheelReceiver.build/Release/GyroWheelReceiver.build/Objects-normal/arm64/GyroWheelReceiver.swiftsourceinfo"
+  }
+}

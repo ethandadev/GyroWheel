@@ -1,0 +1,356 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		09AC7F295A6A6F8093F7FA23 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_97B89EC8-D4E0-4476-B78A-A533B9F5DCD5" /* AppSettings.swift */; };
+		1B276434A154B0F75E78BDC3 /* GyroWheelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_38D4E45A-A899-44E0-9D6E-91F29CC6C092" /* GyroWheelApp.swift */; };
+		3735403937CE5060148C44F3 /* MacroButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_EC29719B-6299-4D81-AD6A-327309E99674" /* MacroButtons.swift */; };
+		3DF83BF74AFAD3DD2462CEF0 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_8E67AA86-517D-44C4-9D35-3C4B0CF2B6CF" /* GameController.swift */; };
+		680E3C5F6C6D4667280097B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB470242D93DFA6DB6865F30 /* Assets.xcassets */; };
+		737D1450B6103464628AC804 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_A6772ECA-5671-45DD-B9EC-5221A0BDE89E" /* MotionManager.swift */; };
+		7FEBA7338CC46FD72ADDD81F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_A710D2C4-6230-4539-91A3-B2AFB1087608" /* OnboardingView.swift */; };
+		8B44ACAABC69928D45702174 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_81F38EE6-E1FB-45B7-8932-5F3E63FDBD2F" /* Store.swift */; };
+		A115EF0C798AB246BD3F8DB1 /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_C851D45D-7AFD-4D3C-924C-81FC67288422" /* Discovery.swift */; };
+		B9378927310147C5FFE1D7E8 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_45143BC4-81E6-4360-BE0A-635BE5087713" /* NetworkManager.swift */; };
+		E63959E5CD186DB43ECF7674 /* HapticsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_08852FC1-4ACE-49F7-8E10-AC91283FAF9B" /* HapticsEngine.swift */; };
+		EE92AF45A03672319628640E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_1E6CCC40-758C-4028-B047-78A882CD5C16" /* SettingsView.swift */; };
+		F83760FCB7902C4F95D1BF10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_BE75E612-2B9F-4ABA-AB3A-465D589B26E3" /* ContentView.swift */; };
+		FF4DB7B2BB4EBF89B32ACA99 /* ThrottleBrakeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_656D69A2-8F6D-41A1-B419-7636451D2C52" /* ThrottleBrakeSlider.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D8CB876A18C5E79440BFA017 /* GyroWheel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GyroWheel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB470242D93DFA6DB6865F30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		"TEMP_08852FC1-4ACE-49F7-8E10-AC91283FAF9B" /* HapticsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsEngine.swift; sourceTree = "<group>"; };
+		"TEMP_1E6CCC40-758C-4028-B047-78A882CD5C16" /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		"TEMP_38D4E45A-A899-44E0-9D6E-91F29CC6C092" /* GyroWheelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroWheelApp.swift; sourceTree = "<group>"; };
+		"TEMP_45143BC4-81E6-4360-BE0A-635BE5087713" /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		"TEMP_656D69A2-8F6D-41A1-B419-7636451D2C52" /* ThrottleBrakeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottleBrakeSlider.swift; sourceTree = "<group>"; };
+		"TEMP_81F38EE6-E1FB-45B7-8932-5F3E63FDBD2F" /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		"TEMP_8E67AA86-517D-44C4-9D35-3C4B0CF2B6CF" /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		"TEMP_97B89EC8-D4E0-4476-B78A-A533B9F5DCD5" /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		"TEMP_A6772ECA-5671-45DD-B9EC-5221A0BDE89E" /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		"TEMP_A710D2C4-6230-4539-91A3-B2AFB1087608" /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		"TEMP_BE75E612-2B9F-4ABA-AB3A-465D589B26E3" /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		"TEMP_C851D45D-7AFD-4D3C-924C-81FC67288422" /* Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discovery.swift; sourceTree = "<group>"; };
+		"TEMP_EC29719B-6299-4D81-AD6A-327309E99674" /* MacroButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroButtons.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1D87D06C8E16389F6359ECA2 = {
+			isa = PBXGroup;
+			children = (
+				FB470242D93DFA6DB6865F30 /* Assets.xcassets */,
+				961A4A81149D4D2AE8D17011 /* Products */,
+				E8738F5F2FEA23D000D268FA /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+		961A4A81149D4D2AE8D17011 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D8CB876A18C5E79440BFA017 /* GyroWheel.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E8738F5F2FEA23D000D268FA /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				"TEMP_97B89EC8-D4E0-4476-B78A-A533B9F5DCD5" /* AppSettings.swift */,
+				"TEMP_BE75E612-2B9F-4ABA-AB3A-465D589B26E3" /* ContentView.swift */,
+				"TEMP_C851D45D-7AFD-4D3C-924C-81FC67288422" /* Discovery.swift */,
+				"TEMP_8E67AA86-517D-44C4-9D35-3C4B0CF2B6CF" /* GameController.swift */,
+				"TEMP_38D4E45A-A899-44E0-9D6E-91F29CC6C092" /* GyroWheelApp.swift */,
+				"TEMP_08852FC1-4ACE-49F7-8E10-AC91283FAF9B" /* HapticsEngine.swift */,
+				"TEMP_EC29719B-6299-4D81-AD6A-327309E99674" /* MacroButtons.swift */,
+				"TEMP_A6772ECA-5671-45DD-B9EC-5221A0BDE89E" /* MotionManager.swift */,
+				"TEMP_45143BC4-81E6-4360-BE0A-635BE5087713" /* NetworkManager.swift */,
+				"TEMP_A710D2C4-6230-4539-91A3-B2AFB1087608" /* OnboardingView.swift */,
+				"TEMP_1E6CCC40-758C-4028-B047-78A882CD5C16" /* SettingsView.swift */,
+				"TEMP_81F38EE6-E1FB-45B7-8932-5F3E63FDBD2F" /* Store.swift */,
+				"TEMP_656D69A2-8F6D-41A1-B419-7636451D2C52" /* ThrottleBrakeSlider.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EEDA09E15EF68FD2E27FD22E /* GyroWheel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B1506C4DF102DA71F59F4ED /* Build configuration list for PBXNativeTarget "GyroWheel" */;
+			buildPhases = (
+				250938F232445A0C43D0EA42 /* Sources */,
+				00B32D0FFA5914FE88E2AF18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GyroWheel;
+			packageProductDependencies = (
+			);
+			productName = GyroWheel;
+			productReference = D8CB876A18C5E79440BFA017 /* GyroWheel.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9E4A6179BCD88008D6459EAE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					EEDA09E15EF68FD2E27FD22E = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2366447F14ED14CD708FCE3A /* Build configuration list for PBXProject "GyroWheel" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1D87D06C8E16389F6359ECA2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 961A4A81149D4D2AE8D17011 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EEDA09E15EF68FD2E27FD22E /* GyroWheel */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00B32D0FFA5914FE88E2AF18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680E3C5F6C6D4667280097B9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		250938F232445A0C43D0EA42 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09AC7F295A6A6F8093F7FA23 /* AppSettings.swift in Sources */,
+				F83760FCB7902C4F95D1BF10 /* ContentView.swift in Sources */,
+				A115EF0C798AB246BD3F8DB1 /* Discovery.swift in Sources */,
+				3DF83BF74AFAD3DD2462CEF0 /* GameController.swift in Sources */,
+				1B276434A154B0F75E78BDC3 /* GyroWheelApp.swift in Sources */,
+				E63959E5CD186DB43ECF7674 /* HapticsEngine.swift in Sources */,
+				3735403937CE5060148C44F3 /* MacroButtons.swift in Sources */,
+				737D1450B6103464628AC804 /* MotionManager.swift in Sources */,
+				B9378927310147C5FFE1D7E8 /* NetworkManager.swift in Sources */,
+				7FEBA7338CC46FD72ADDD81F /* OnboardingView.swift in Sources */,
+				EE92AF45A03672319628640E /* SettingsView.swift in Sources */,
+				8B44ACAABC69928D45702174 /* Store.swift in Sources */,
+				FF4DB7B2BB4EBF89B32ACA99 /* ThrottleBrakeSlider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3EBC2B0262B8573B82E08923 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 92JK43YAHC;
+				INFOPLIST_FILE = "GyroWheel-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gyrowheel.GyroWheelApp;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		520893651D60F333B756FB40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B0D19D93598DCCF02C8BA26B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 92JK43YAHC;
+				INFOPLIST_FILE = "GyroWheel-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gyrowheel.GyroWheelApp;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE7C90686F5C20A295F9EB2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2366447F14ED14CD708FCE3A /* Build configuration list for PBXProject "GyroWheel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE7C90686F5C20A295F9EB2F /* Debug */,
+				520893651D60F333B756FB40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8B1506C4DF102DA71F59F4ED /* Build configuration list for PBXNativeTarget "GyroWheel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B0D19D93598DCCF02C8BA26B /* Debug */,
+				3EBC2B0262B8573B82E08923 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9E4A6179BCD88008D6459EAE /* Project object */;
+}

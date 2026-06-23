@@ -1,0 +1,27 @@
+name: GyroWheelReceiver
+options:
+  bundleIdPrefix: com.gyrowheel
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+
+targets:
+  GyroWheelReceiver:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+      - Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.gyrowheel.Receiver
+        PRODUCT_NAME: GyroWheelReceiver
+        SWIFT_OBJC_BRIDGING_HEADER: Sources/bridge.h
+        CODE_SIGN_ENTITLEMENTS: Receiver.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_VERSION: "5.0"
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSHumanReadableCopyright: GyroWheel

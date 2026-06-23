@@ -1,0 +1,70 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "1da3f226e30f330b9cb96ecda3f997874b1ebe5fedad7f5d0c1d09e1ff1cb681"
+    }
+  ],
+  "containerPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/GyroWheelReceiver.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "platform" : "macosx",
+      "sdk" : "macosx26.0",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Products",
+      "derivedDataPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/build",
+      "indexDataStoreFolderPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/ethanwang/GyroWheel/mac/Receiver/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Release",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "CODE_SIGN_IDENTITY" : "-",
+          "CODE_SIGN_STYLE" : "Manual",
+          "CODE_SIGNING_ALLOWED" : "YES",
+          "CODE_SIGNING_REQUIRED" : "NO",
+          "DEVELOPMENT_TEAM" : "",
+          "PROVISIONING_PROFILE_SPECIFIER" : ""
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES",
+          "TOOLCHAINS" : "com.apple.dt.toolchain.Metal.32023 $(inherited)"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

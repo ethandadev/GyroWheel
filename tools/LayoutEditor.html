@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GyroWheel Layout Editor</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #121212; color: #fff; display: flex; height: 100vh; overflow: hidden; }
+        #sidebar { width: 340px; background: #1e1e1e; padding: 20px; overflow-y: auto; border-right: 1px solid #333; box-shadow: 2px 0 10px rgba(0,0,0,0.5); z-index: 10; }
+        #workspace { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; position: relative; background-image: radial-gradient(#222 1px, transparent 0); background-size: 20px 20px; }
+        
+        #canvas { width: 896px; height: 414px; background: #111; border: 2px solid #444; border-radius: 40px; position: relative; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        
+        .draggable { position: absolute; cursor: grab; user-select: none; display: flex; align-items: center; justify-content: center; box-sizing: border-box; transform: translate(-50%, -50%); transition: box-shadow 0.2s; }
+        .draggable:active { cursor: grabbing; }
+        
+        .button-el { border-radius: 50%; font-weight: 600; font-size: 16px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); }
+        .wheel-el { border: 6px solid rgba(255,255,255,0.6); border-radius: 50%; }
+        .wheel-el::before { content: ''; width: 100%; height: 6px; background: rgba(255,255,255,0.6); position: absolute; top: 50%; transform: translateY(-50%); }
+        .wheel-el::after { content: ''; height: 100%; width: 6px; background: rgba(255,255,255,0.6); position: absolute; left: 50%; transform: translateX(-50%); }
+        
+        .pedal-el { background: rgba(255,255,255,0.1); border-radius: 20px; border: 2px solid rgba(255,255,255,0.3); flex-direction: column; justify-content: space-between; padding: 10px 0; }
+        .pedal-thumb { width: 40px; height: 40px; background: white; border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .pedal-bar { width: 100%; height: 2px; background: rgba(255,255,255,0.4); position: absolute; left: 0; top: 50%; }
+        .pedal-text { font-size: 10px; color: rgba(255,255,255,0.6); font-weight: bold; pointer-events: none; }
+        
+        .selected { border-color: #0af !important; box-shadow: 0 0 0 4px rgba(0, 170, 255, 0.5) !important; z-index: 100; }
+        
+        h2 { margin-top: 0; font-size: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        h3 { font-size: 16px; color: #0af; margin-top: 0; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: flex; justify-content: space-between; font-size: 13px; color: #bbb; margin-bottom: 6px; font-weight: 500; }
+        .form-group input[type="text"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #444; background: #2a2a2a; color: white; font-family: inherit; }
+        .form-group input[type="range"] { width: 100%; accent-color: #0af; }
+        
+        button { background: #0af; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; margin-bottom: 10px; transition: background 0.2s; font-size: 14px; }
+        button:hover { background: #0088cc; }
+        .btn-secondary { background: #444; }
+        .btn-secondary:hover { background: #555; }
+        .btn-success { background: #34c759; }
+        .btn-success:hover { background: #28a745; }
+        
+        textarea { height: 180px; font-family: monospace; font-size: 12px; resize: vertical; }
+        
+        .color-0 { background: #007aff; } .color-1 { background: #34c759; } .color-2 { background: #ff3b30; } .color-3 { background: #af52de; }
+        .color-4 { background: #ffcc00; } .color-5 { background: #ff9500; } .color-6 { background: #8e8e93; } .color-7 { background: #1c1c1e; }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>🏎️ GyroWheel Editor</h2>
+        
+        <div class="form-group">
+            <label>Macro Button Count (2-30) <span id="btnCountVal">4</span></label>
+            <input type="range" id="btnCount" min="2" max="30" value="4" oninput="updateBtnCount(this.value)">
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+            <label style="margin:0;">Show Steering Wheel</label>
+            <input type="checkbox" id="showWheel" checked onchange="state.showWheel = this.checked; renderCanvas()">
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #333; margin: 25px 0;">
+
+        <div id="elementSettings" style="min-height: 250px;">
+            <p style="color:#777; font-size:13px; text-align: center; margin-top: 50px;">Click on any element on the screen to edit its properties.</p>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #333; margin: 25px 0;">
+
+        <button class="btn-success" onclick="exportJSON()">Generate JSON Profile</button>
+        <div class="form-group">
+            <textarea id="jsonOutput" placeholder="JSON profile will appear here. You can also paste JSON here to import."></textarea>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button class="btn-secondary" onclick="importJSON()">Import</button>
+            <button class="btn-secondary" onclick="copyJSON()">Copy</button>
+        </div>
+    </div>
+
+    <div id="workspace">
+        <div id="canvas"></div>
+        <p style="color:#666; margin-top: 25px; font-size: 14px; font-weight: 500;">Drag elements to reposition • Click to edit • Designed for GyroWheel iOS</p>
+    </div>
+
+    <script>
+        let state = {
+            buttonCount: 4,
+            buttonLabels: Array(30).fill(""),
+            buttonColors: Array(30).fill(0),
+            buttonModes: Array(30).fill(0),
+            buttonPosX: Array(30).fill(0.1),
+            buttonPosY: Array(30).fill(0.1),
+            buttonSize: Array(30).fill(72),
+            showWheel: true,
+            wheelPosX: 0.5,
+            wheelPosY: 0.56,
+            wheelSize: 180,
+            sliderPosX: 0.92,
+            sliderPosY: 0.5,
+            sliderWidth: 96,
+            sliderHeight: 320
+        };
+
+        const defaultLabels = ["A", "B", "X", "Y", "LB", "RB", "LT", "RT", "L3", "R3"];
+        for(let i=0; i<30; i++) {
+            state.buttonLabels[i] = i < defaultLabels.length ? defaultLabels[i] : (i+1).toString();
+            state.buttonColors[i] = i % 8;
+            state.buttonPosX[i] = 0.07 + (i % 5) * 0.09;
+            state.buttonPosY[i] = 0.28 + Math.floor(i / 5) * 0.12;
+        }
+
+        let selectedId = null;
+        let isDragging = false;
+        let dragEl = null;
+        let dragCb = null;
+        const canvas = document.getElementById('canvas');
+
+        function updateBtnCount(val) {
+            document.getElementById('btnCountVal').innerText = val;
+            state.buttonCount = parseInt(val);
+            if (selectedId && selectedId.startsWith('btn_') && parseInt(selectedId.split('_')[1]) >= state.buttonCount) {
+                selectedId = null;
+                renderSettings();
+            }
+            renderCanvas();
+        }
+
+        function selectElement(id) {
+            selectedId = id;
+            document.querySelectorAll('.draggable').forEach(el => el.classList.remove('selected'));
+            document.getElementById(id).classList.add('selected');
+            renderSettings();
+        }
+
+        function renderSettings() {
+            const container = document.getElementById('elementSettings');
+            if (!selectedId) {
+                container.innerHTML = '<p style="color:#777; font-size:13px; text-align: center; margin-top: 50px;">Click on any element on the screen to edit its properties.</p>';
+                return;
+            }
+
+            if (selectedId === 'wheel') {
+                container.innerHTML = `
+                    <h3>Steering Wheel</h3>
+                    <div class="form-group">
+                        <label>Size <span>${state.wheelSize}</span></label>
+                        <input type="range" min="90" max="320" value="${state.wheelSize}" oninput="state.wheelSize=Number(this.value); document.getElementById('wheel').style.width=this.value+'px'; document.getElementById('wheel').style.height=this.value+'px'; renderSettings();">
+                    </div>
+                `;
+            } else if (selectedId === 'pedal') {
+                container.innerHTML = `
+                    <h3>Pedals Slider</h3>
+                    <div class="form-group">
+                        <label>Width <span>${state.sliderWidth}</span></label>
+                        <input type="range" min="60" max="160" value="${state.sliderWidth}" oninput="state.sliderWidth=Number(this.value); document.getElementById('pedal').style.width=this.value+'px'; renderSettings();">
+                    </div>
+                    <div class="form-group">
+                        <label>Height <span>${state.sliderHeight}</span></label>
+                        <input type="range" min="180" max="460" value="${state.sliderHeight}" oninput="state.sliderHeight=Number(this.value); document.getElementById('pedal').style.height=this.value+'px'; renderSettings();">
+                    </div>
+                `;
+            } else if (selectedId.startsWith('btn_')) {
+                let idx = parseInt(selectedId.split('_')[1]);
+                container.innerHTML = `
+                    <h3>Macro Button ${idx + 1}</h3>
+                    <div class="form-group">
+                        <label>Label</label>
+                        <input type="text" value="${state.buttonLabels[idx]}" oninput="state.buttonLabels[${idx}]=this.value; document.getElementById('${selectedId}').innerText=this.value;">
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <select onchange="document.getElementById('${selectedId}').classList.replace('color-'+state.buttonColors[${idx}], 'color-'+this.value); state.buttonColors[${idx}]=Number(this.value);">
+                            <option value="0" ${state.buttonColors[idx]===0?'selected':''}>Blue</option>
+                            <option value="1" ${state.buttonColors[idx]===1?'selected':''}>Green</option>
+                            <option value="2" ${state.buttonColors[idx]===2?'selected':''}>Red</option>
+                            <option value="3" ${state.buttonColors[idx]===3?'selected':''}>Purple</option>
+                            <option value="4" ${state.buttonColors[idx]===4?'selected':''}>Yellow</option>
+                            <option value="5" ${state.buttonColors[idx]===5?'selected':''}>Orange</option>
+                            <option value="6" ${state.buttonColors[idx]===6?'selected':''}>Gray</option>
+                            <option value="7" ${state.buttonColors[idx]===7?'selected':''}>Black</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mode</label>
+                        <select onchange="state.buttonModes[${idx}]=Number(this.value)">
+                            <option value="0" ${state.buttonModes[idx]===0?'selected':''}>Hold</option>
+                            <option value="1" ${state.buttonModes[idx]===1?'selected':''}>Toggle</option>
+                            <option value="2" ${state.buttonModes[idx]===2?'selected':''}>Tap</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Size <span>${state.buttonSize[idx]}</span></label>
+                        <input type="range" min="50" max="150" value="${state.buttonSize[idx]}" oninput="state.buttonSize[${idx}]=Number(this.value); document.getElementById('${selectedId}').style.width=this.value+'px'; document.getElementById('${selectedId}').style.height=this.value+'px'; renderSettings();">
+                    </div>
+                `;
+            }
+        }
+
+        // Global mouse events to prevent snapping issues
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging || !dragEl) return;
+            
+            const canvasRect = canvas.getBoundingClientRect();
+            // Calculate absolute position inside canvas directly from mouse coords
+            let px = e.clientX - canvasRect.left;
+            let py = e.clientY - canvasRect.top;
+            
+            // Normalize
+            let normX = px / canvasRect.width;
+            let normY = py / canvasRect.height;
+            
+            // Clamp strictly inside canvas
+            normX = Math.max(0.02, Math.min(0.98, normX));
+            normY = Math.max(0.04, Math.min(0.96, normY));
+            
+            // Apply visual
+            dragEl.style.left = (normX * 100) + '%';
+            dragEl.style.top = (normY * 100) + '%';
+            
+            // Apply to state
+            dragCb(normX, normY);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            dragEl = null;
+            dragCb = null;
+        });
+
+        function makeDraggable(el, id, updatePosCb) {
+            el.addEventListener('mousedown', (e) => {
+                selectElement(id);
+                isDragging = true;
+                dragEl = el;
+                dragCb = updatePosCb;
+                
+                // Immediately snap to center of mouse on click to avoid offset drift bugs
+                const canvasRect = canvas.getBoundingClientRect();
+                let normX = (e.clientX - canvasRect.left) / canvasRect.width;
+                let normY = (e.clientY - canvasRect.top) / canvasRect.height;
+                normX = Math.max(0.02, Math.min(0.98, normX));
+                normY = Math.max(0.04, Math.min(0.96, normY));
+                
+                el.style.left = (normX * 100) + '%';
+                el.style.top = (normY * 100) + '%';
+                updatePosCb(normX, normY);
+                
+                e.stopPropagation(); // prevent default selections
+                e.preventDefault();
+            });
+        }
+
+        function renderCanvas() {
+            canvas.innerHTML = '';
+
+            for(let i=0; i<state.buttonCount; i++) {
+                let btn = document.createElement('div');
+                btn.id = 'btn_'+i;
+                btn.className = `draggable button-el color-${state.buttonColors[i]} ${selectedId === 'btn_'+i ? 'selected' : ''}`;
+                btn.style.width = state.buttonSize[i] + 'px';
+                btn.style.height = state.buttonSize[i] + 'px';
+                btn.style.left = (state.buttonPosX[i] * 100) + '%';
+                btn.style.top = (state.buttonPosY[i] * 100) + '%';
+                btn.innerText = state.buttonLabels[i];
+                
+                makeDraggable(btn, 'btn_'+i, (nx, ny) => {
+                    state.buttonPosX[i] = nx;
+                    state.buttonPosY[i] = ny;
+                });
+                canvas.appendChild(btn);
+            }
+
+            if (state.showWheel) {
+                let whl = document.createElement('div');
+                whl.id = 'wheel';
+                whl.className = `draggable wheel-el ${selectedId === 'wheel' ? 'selected' : ''}`;
+                whl.style.width = state.wheelSize + 'px';
+                whl.style.height = state.wheelSize + 'px';
+                whl.style.left = (state.wheelPosX * 100) + '%';
+                whl.style.top = (state.wheelPosY * 100) + '%';
+                
+                makeDraggable(whl, 'wheel', (nx, ny) => {
+                    state.wheelPosX = nx;
+                    state.wheelPosY = ny;
+                });
+                canvas.appendChild(whl);
+            }
+
+            let pdl = document.createElement('div');
+            pdl.id = 'pedal';
+            pdl.className = `draggable pedal-el ${selectedId === 'pedal' ? 'selected' : ''}`;
+            pdl.style.width = state.sliderWidth + 'px';
+            pdl.style.height = state.sliderHeight + 'px';
+            pdl.style.left = (state.sliderPosX * 100) + '%';
+            pdl.style.top = (state.sliderPosY * 100) + '%';
+            pdl.innerHTML = `
+                <div class="pedal-text">THR</div>
+                <div class="pedal-bar"></div>
+                <div class="pedal-thumb"></div>
+                <div class="pedal-text">BRK</div>
+            `;
+            
+            makeDraggable(pdl, 'pedal', (nx, ny) => {
+                state.sliderPosX = nx;
+                state.sliderPosY = ny;
+            });
+            canvas.appendChild(pdl);
+            
+            // Reselect visually if needed
+            if(selectedId) {
+                const el = document.getElementById(selectedId);
+                if(el) el.classList.add('selected');
+            }
+        }
+
+        function exportJSON() {
+            document.getElementById('jsonOutput').value = JSON.stringify(state, null, 2);
+        }
+
+        function copyJSON() {
+            const txt = document.getElementById('jsonOutput');
+            txt.select();
+            document.execCommand('copy');
+            alert("Copied to clipboard! Send this to your iPhone and paste it in GyroWheel -> Settings -> Data & Export.");
+        }
+
+        function importJSON() {
+            try {
+                let parsed = JSON.parse(document.getElementById('jsonOutput').value);
+                state = Object.assign(state, parsed);
+                document.getElementById('btnCount').value = state.buttonCount;
+                document.getElementById('btnCountVal').innerText = state.buttonCount;
+                document.getElementById('showWheel').checked = state.showWheel;
+                selectedId = null;
+                renderSettings();
+                renderCanvas();
+                alert("Import successful!");
+            } catch (e) {
+                alert("Invalid JSON format.");
+            }
+        }
+
+        // Init
+        document.getElementById('btnCount').value = state.buttonCount;
+        renderCanvas();
+    </script>
+</body>
+</html>

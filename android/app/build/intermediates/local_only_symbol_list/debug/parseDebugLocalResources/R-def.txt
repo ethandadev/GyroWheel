@@ -1,0 +1,7 @@
+R_DEF: Internal format may change without notice
+local
+id btn_start
+id input_ip
+layout activity_main
+string app_name
+style AppTheme

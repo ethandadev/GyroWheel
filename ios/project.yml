@@ -1,0 +1,44 @@
+name: GyroWheel
+options:
+  bundleIdPrefix: com.gyrowheel
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+targets:
+  GyroWheel:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        includes:
+          - "**/*.swift"
+      - path: Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.gyrowheel.GyroWheelApp
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"      # iPhone + iPad
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_VERSION: "5.0"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: GyroWheel-Info.plist
+      properties:
+        CFBundleDisplayName: GyroWheel
+        UIRequiresFullScreen: true
+        UIStatusBarHidden: true
+        # Launch screen: solid dark color from the asset catalog.
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        NSMotionUsageDescription: "GyroWheel uses device motion to read the steering angle from how you tilt the phone."
+        NSLocalNetworkUsageDescription: "GyroWheel finds and sends steering, throttle and button data to your Mac over the local network."
+        NSBonjourServices:
+          - _gyrowheel._udp
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        "UISupportedInterfaceOrientations~ipad":
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
