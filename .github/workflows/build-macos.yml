@@ -73,15 +73,34 @@ jobs:
         MACOS_NOTARY_PASSWORD: ${{ secrets.MACOS_NOTARY_PASSWORD }}
         MACOS_TEAM_ID: ${{ secrets.MACOS_TEAM_ID }}
       run: |
-        set -euo pipefail
+        set -uo pipefail
         cd mac/Receiver
         APP="build/Build/Products/Release/GyroWheelReceiver.app"
+
+        echo "::group::Signature check (codesign)"
+        codesign -dvvv --entitlements - "$APP" || true
+        echo "::endgroup::"
+
         ditto -c -k --keepParent "$APP" notarize.zip
-        xcrun notarytool submit notarize.zip \
+        RESULT=$(xcrun notarytool submit notarize.zip \
           --apple-id "$MACOS_NOTARY_APPLE_ID" \
           --password "$MACOS_NOTARY_PASSWORD" \
           --team-id "$MACOS_TEAM_ID" \
-          --wait
+          --wait --output-format json)
+        echo "$RESULT"
+        ID=$(echo "$RESULT" | python3 -c "import sys,json;print(json.load(sys.stdin)['id'])")
+        STATUS=$(echo "$RESULT" | python3 -c "import sys,json;print(json.load(sys.stdin)['status'])")
+
+        if [ "$STATUS" != "Accepted" ]; then
+          echo "::group::Notary log (why it was $STATUS)"
+          xcrun notarytool log "$ID" \
+            --apple-id "$MACOS_NOTARY_APPLE_ID" \
+            --password "$MACOS_NOTARY_PASSWORD" \
+            --team-id "$MACOS_TEAM_ID" || true
+          echo "::endgroup::"
+          exit 1
+        fi
+
         xcrun stapler staple "$APP"
         ditto -c -k --keepParent "$APP" GyroWheelReceiver-macOS.app.zip
 
