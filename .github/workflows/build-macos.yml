@@ -1,0 +1,52 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install XcodeGen
+      run: brew install xcodegen
+
+    - name: Generate Xcode project
+      run: |
+        cd mac/Receiver
+        xcodegen generate
+
+    # 🛠️ Builds the app bundle, ad-hoc signed (matches local build.sh).
+    - name: Build app
+      run: |
+        cd mac/Receiver
+        xcodebuild -project GyroWheelReceiver.xcodeproj \
+          -scheme GyroWheelReceiver \
+          -configuration Release \
+          -derivedDataPath build \
+          CODE_SIGN_IDENTITY="-" CODE_SIGN_STYLE=Manual \
+          DEVELOPMENT_TEAM="" PROVISIONING_PROFILE_SPECIFIER="" \
+          CODE_SIGNING_ALLOWED=YES CODE_SIGNING_REQUIRED=NO \
+          build
+
+    - name: Zip app bundle
+      run: |
+        cd mac/Receiver
+        ditto -c -k --keepParent \
+          build/Build/Products/Release/GyroWheelReceiver.app \
+          GyroWheelReceiver-macOS.app.zip
+
+    # 📦 Download this from the Actions run → Artifacts. It's ad-hoc signed, so
+    # on a normal Mac you still need SIP+AMFI off (personal use) for the virtual
+    # HID device — see the README.
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: GyroWheel-Receiver-macOS
+        path: mac/Receiver/GyroWheelReceiver-macOS.app.zip

@@ -1,0 +1,39 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+        cache: gradle
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+
+    # 🛠️ Builds the installable debug APK (no signing secrets needed).
+    - name: Build debug APK
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon --stacktrace
+
+    # 📦 Download this from the Actions run → Artifacts.
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: GyroWheel-Android-APK
+        path: android/app/build/outputs/apk/debug/app-debug.apk
