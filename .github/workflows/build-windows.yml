@@ -22,19 +22,22 @@ jobs:
 
     - name: Install dependencies
       env:
-        VGAMEPAD_SKIP_VIGEMBUS_INSTALL: "true" # 🛑 Blocks the interactive installer from stalling the headless runner
+        VGAMEPAD_SKIP_VIGEMBUS_INSTALL: "true" # Blocks the interactive popup installer
       run: |
+        # ⚡ BYPASS HANG: Create a mock reg.bat to skip vgamepad's slow recursive registry scan
+        New-Item -ItemType Directory -Force -Path "C:\mock_bin"
+        "@echo off`necho." | Out-File -FilePath "C:\mock_bin\reg.bat" -Encoding ascii
+        $env:PATH = "C:\mock_bin;" + $env:PATH
+
         python -m pip install --upgrade pip
         pip install pyinstaller --prefer-binary
         pip install -r windows/requirements.txt --prefer-binary
 
-    # 🛠️ THIS STEP CREATES THE EXE FILE:
     - name: Build with PyInstaller
       run: |
         cd windows
         pyinstaller --onefile --noconsole --name "GyroWheel_Receiver" receiver.py
 
-    # 📦 THIS STEP UPLOADS IT TO GITHUB ACTIONS SO YOU CAN DOWNLOAD IT:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
