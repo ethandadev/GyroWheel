@@ -7,6 +7,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# vgamepad's setup.py runs an INTERACTIVE msiexec for ViGEmBus unless this is
+# set — which hangs a headless runner forever. Job-wide so pip's isolated build
+# subprocess sees it too.
+env:
+  VGAMEPAD_SKIP_VIGEMBUS_INSTALL: "true"
+
 jobs:
   build:
     runs-on: windows-latest
@@ -20,15 +26,19 @@ jobs:
         python-version: '3.11'
         cache: 'pip'
 
-    - name: Install dependencies
-      env:
-        VGAMEPAD_SKIP_VIGEMBUS_INSTALL: "true" # Blocks the interactive popup installer
+    # Belt-and-suspenders: make vgamepad's registry scan find ViGEmBus as
+    # "already installed", so it skips the installer branch entirely. We only
+    # need vgamepad importable to bundle it — the real driver is installed by
+    # the end user at runtime.
+    - name: Pre-seed ViGEmBus registry marker
+      shell: pwsh
       run: |
-        # ⚡ BYPASS HANG: Create a mock reg.bat to skip vgamepad's slow recursive registry scan
-        New-Item -ItemType Directory -Force -Path "C:\mock_bin"
-        "@echo off`necho." | Out-File -FilePath "C:\mock_bin\reg.bat" -Encoding ascii
-        $env:PATH = "C:\mock_bin;" + $env:PATH
+        $key = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\ViGEmBus"
+        New-Item -Path $key -Force | Out-Null
+        Set-ItemProperty -Path $key -Name "DisplayName" -Value "Nefarius Virtual Gamepad Emulation Bus Driver"
 
+    - name: Install dependencies
+      run: |
         python -m pip install --upgrade pip
         pip install pyinstaller --prefer-binary
         pip install -r windows/requirements.txt --prefer-binary
