@@ -51,11 +51,18 @@ jobs:
         MACOS_TEAM_ID: ${{ secrets.MACOS_TEAM_ID }}
       run: |
         cd mac/Receiver
+        # The app's normal entitlements include the restricted "HID Virtual Device"
+        # capability, which would require a provisioning profile that carries that
+        # (Apple-gated) feature. For the notarized download we sign WITHOUT it —
+        # the virtual gamepad still works on a Mac running SIP/AMFI disabled, which
+        # is required for it regardless. (Local build.sh keeps the entitlement.)
+        printf '<?xml version="1.0" encoding="UTF-8"?>\n<plist version="1.0"><dict/></plist>\n' > "$RUNNER_TEMP/ci.entitlements"
         xcodebuild -project GyroWheelReceiver.xcodeproj -scheme GyroWheelReceiver \
           -configuration Release -derivedDataPath build \
           CODE_SIGN_STYLE=Manual \
           CODE_SIGN_IDENTITY="Developer ID Application" \
           DEVELOPMENT_TEAM="$MACOS_TEAM_ID" \
+          CODE_SIGN_ENTITLEMENTS="$RUNNER_TEMP/ci.entitlements" \
           ENABLE_HARDENED_RUNTIME=YES \
           OTHER_CODE_SIGN_FLAGS="--timestamp" \
           build
