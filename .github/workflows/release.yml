@@ -1,0 +1,76 @@
+name: Release (beta)
+
+# Publishes a GitHub pre-release with the Mac app, Android APK, and Windows .exe
+# attached, plus auto-generated change notes.
+#
+# Trigger A: push a tag like  v1.0.0-beta.1   →  git tag v1.0.0-beta.1 && git push origin v1.0.0-beta.1
+# Trigger B: Actions → Release (beta) → Run workflow → type a tag.
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0-beta.1)'
+        required: true
+
+jobs:
+  android:
+    uses: ./.github/workflows/build-android.yml
+
+  macos:
+    uses: ./.github/workflows/build-macos.yml
+    secrets: inherit          # passes the signing/notarization secrets through
+
+  windows:
+    uses: ./.github/workflows/build-windows.yml
+
+  release:
+    needs: [ android, macos, windows ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write          # required to create the release
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Flatten artifacts
+        run: |
+          mkdir -p dist
+          find artifacts -type f \( -name '*.apk' -o -name '*.zip' -o -name '*.exe' \) -exec cp {} dist/ \;
+          # Friendlier filenames
+          [ -f dist/app-debug.apk ] && mv dist/app-debug.apk dist/GyroWheel-Android.apk || true
+          ls -la dist
+
+      - name: Publish pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: GyroWheel ${{ github.event.inputs.tag || github.ref_name }}
+          prerelease: true
+          generate_release_notes: true
+          files: dist/*
+          body: |
+            ## GyroWheel — beta
+
+            Turn your phone into a gyroscope steering wheel. This release includes the
+            phone-side receivers for each desktop platform. (The iOS app ships via the
+            App Store.)
+
+            ### Downloads
+            | File | Platform | Notes |
+            |------|----------|-------|
+            | `GyroWheelReceiver-macOS.app.zip` | macOS | Signed & notarized — just unzip and open. |
+            | `GyroWheel_Receiver.exe` | Windows | Needs the free **ViGEmBus** driver installed once. |
+            | `GyroWheel-Android.apk` | Android | Sideload (enable "install unknown apps"). |
+
+            ### Quick start
+            1. Run the receiver on your computer; it shows an IP (or the phone finds it automatically over Wi‑Fi).
+            2. Open GyroWheel on your phone, enter the IP (or tap the discovered computer), and connect.
+            3. In your game, bind steering to the X axis and throttle/brake to the triggers.
+
+            > Phone and computer must be on the same Wi‑Fi network.
+
+            ---

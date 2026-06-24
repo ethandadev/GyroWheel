@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  workflow_call:
 
 # vgamepad's setup.py runs an INTERACTIVE msiexec for ViGEmBus unless this is
 # set — which hangs a headless runner forever. Job-wide so pip's isolated build
