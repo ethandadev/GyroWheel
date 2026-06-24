@@ -9,10 +9,17 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
     - uses: actions/checkout@v4
+
+    # XcodeGen emits an Xcode 16 project format (77); select the newest Xcode so
+    # xcodebuild can read it (the runner default can lag behind).
+    - name: Use latest Xcode
+      run: |
+        sudo xcode-select -s "$(ls -d /Applications/Xcode_*.app | sort -V | tail -1)"
+        xcodebuild -version
 
     - name: Install XcodeGen
       run: brew install xcodegen
