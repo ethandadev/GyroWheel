@@ -1,6 +1,29 @@
 import Foundation
 import Network
 
+// Telemetry state representation for engine decoupling
+struct GameTelemetryState {
+    let speedKmh: Double
+    let throttle: Double
+    let brake: Double
+    let frontSlipMin: Double
+    let rearSlipMax: Double
+    let onKerb: Bool
+    let isOfftrack: Bool
+}
+
+struct HapticCue {
+    let haptic: String
+    let intensity: Double?
+    let limit: Float?
+}
+
+// Telemetry parsing contract
+protocol TelemetryParserProtocol {
+    func parse(data: Data) -> GameTelemetryState?
+    func computeHaptics(state: GameTelemetryState) -> HapticCue?
+}
+
 // F1 25 telemetry → speed-sensitive steering + lockup/wheelspin haptics.
 enum Telcfg {
     static let port: UInt16 = 20777
@@ -25,23 +48,96 @@ private extension Data {
     }
 }
 
-final class TelemetryEngine {
-    private let lock = NSLock()
-    private var speedKmh = 0.0
+// Concrete parser implementing TelemetryParserProtocol
+final class F125TelemetryParser: TelemetryParserProtocol {
     private var frontSlipMin = 0.0
     private var rearSlipMax = 0.0
     private var brake = 0.0
     private var throttle = 0.0
-    private var lastLockup: CFTimeInterval = 0
-    private var lastWheelspin: CFTimeInterval = 0
-    private var lastKerb: CFTimeInterval = 0
-    private var lastOfftrack: CFTimeInterval = 0
-    private var lastSoftLock: CFTimeInterval = 0
+    private var speedKmh = 0.0
+
+    func parse(data: Data) -> GameTelemetryState? {
+        guard let fmt = data.u16le(0), fmt >= 2018,
+              let pid = data.u8(6), let player = data.u8(27) else { return nil }
+        let header = 29
+        
+        switch pid {
+        case 6: // Car Telemetry
+            let off = header + Int(player) * 60
+            guard let sp = data.u16le(off), let th = data.f32le(off + 2), let br = data.f32le(off + 10) else { return nil }
+            
+            var onKerb = false
+            var isOfftrack = false
+            if let fl = data.u8(off + 56), let fr = data.u8(off + 57), 
+               let rl = data.u8(off + 58), let rr = data.u8(off + 59) {
+                let surfaces = [fl, fr, rl, rr]
+                if surfaces.contains(where: { [1, 2, 9, 10, 11].contains($0) }) { onKerb = true }
+                if surfaces.contains(where: { [3, 4, 5, 6, 7].contains($0) }) { isOfftrack = true }
+            }
+
+            speedKmh = Double(sp)
+            throttle = Double(th)
+            brake = Double(br)
+            
+            return GameTelemetryState(
+                speedKmh: speedKmh,
+                throttle: throttle,
+                brake: brake,
+                frontSlipMin: frontSlipMin,
+                rearSlipMax: rearSlipMax,
+                onKerb: onKerb,
+                isOfftrack: isOfftrack
+            )
+
+        case 13: // Motion Ex
+            let off = header + 64
+            guard let rl = data.f32le(off), let rr = data.f32le(off + 4),
+                  let fl = data.f32le(off + 8), let fr = data.f32le(off + 12) else { return nil }
+            
+            frontSlipMin = min(Double(fl), Double(fr))
+            rearSlipMax = max(Double(rl), Double(rr))
+            
+            return GameTelemetryState(
+                speedKmh: speedKmh,
+                throttle: throttle,
+                brake: brake,
+                frontSlipMin: frontSlipMin,
+                rearSlipMax: rearSlipMax,
+                onKerb: false,
+                isOfftrack: false
+            )
+        default: return nil
+        }
+    }
+
+    func computeHaptics(state: GameTelemetryState) -> HapticCue? {
+        guard Telcfg.haptics else { return nil }
+        
+        if state.brake > 0.25, state.frontSlipMin < -Telcfg.lockupSlip {
+            return HapticCue(haptic: "lockup", intensity: 1.0, limit: nil)
+        } else if state.throttle > 0.35, state.rearSlipMax > Telcfg.wheelspinSlip {
+            let intensity = min(1.0, state.rearSlipMax / 0.6)
+            return HapticCue(haptic: "wheelspin", intensity: intensity, limit: nil)
+        } else if state.isOfftrack {
+            return HapticCue(haptic: "offtrack", intensity: 1.0, limit: nil)
+        } else if state.onKerb {
+            return HapticCue(haptic: "kerb", intensity: 1.0, limit: nil)
+        }
+        
+        return nil
+    }
+}
+
+final class TelemetryEngine {
+    private let lock = NSLock()
+    private var speedKmh = 0.0
+    private var lastHapticTimes: [String: CFTimeInterval] = [:]
     private var lastPacket: CFTimeInterval = 0
 
     private var listener: NWListener?
     private let queue = DispatchQueue(label: "com.gyrowheel.telemetry")
 
+    private let parser: TelemetryParserProtocol = F125TelemetryParser()
     var phoneConnection: NWConnection?
     var onSpeed: ((Double, Bool) -> Void)?
 
@@ -58,8 +154,9 @@ final class TelemetryEngine {
     func triggerSoftLock() {
         guard Telcfg.haptics, let conn = phoneConnection else { return }
         let now = CFAbsoluteTimeGetCurrent()
-        if now - lastSoftLock > 0.3 {
-            lastSoftLock = now
+        let lastTime = lastHapticTimes["softLock"] ?? 0
+        if now - lastTime > 0.3 {
+            lastHapticTimes["softLock"] = now
             send("{\"haptic\":\"softLock\"}", conn)
         }
     }
@@ -109,69 +206,36 @@ final class TelemetryEngine {
         heartbeat?.cancel(); heartbeat = nil
     }
 
-    func parse(_ data: Data) {
-        guard let fmt = data.u16le(0), fmt >= 2018,
-              let pid = data.u8(6), let player = data.u8(27) else { return }
-        let header = 29
-        switch pid {
-        case 6: // Car Telemetry
-            let off = header + Int(player) * 60
-            guard let sp = data.u16le(off), let th = data.f32le(off + 2), let br = data.f32le(off + 10) else { return }
-            
-            var onKerb = false
-            var isOfftrack = false
-            if let fl = data.u8(off + 56), let fr = data.u8(off + 57), 
-               let rl = data.u8(off + 58), let rr = data.u8(off + 59) {
-                let surfaces = [fl, fr, rl, rr]
-                if surfaces.contains(where: { [1, 2, 9, 10, 11].contains($0) }) { onKerb = true }
-                if surfaces.contains(where: { [3, 4, 5, 6, 7].contains($0) }) { isOfftrack = true }
-            }
-
-            lock.lock(); speedKmh = Double(sp); throttle = Double(th); brake = Double(br); lastPacket = CFAbsoluteTimeGetCurrent(); lock.unlock()
-            
-            if speedKmh > 5.0 {
-                detectSurfaceHaptics(kerb: onKerb, offtrack: isOfftrack)
-            }
-
-        case 13: // Motion Ex
-            let off = header + 64
-            guard let rl = data.f32le(off), let rr = data.f32le(off + 4),
-                  let fl = data.f32le(off + 8), let fr = data.f32le(off + 12) else { return }
-            lock.lock()
-            frontSlipMin = min(Double(fl), Double(fr))
-            rearSlipMax = max(Double(rl), Double(rr))
-            let br = brake, th = throttle
-            lastPacket = CFAbsoluteTimeGetCurrent()
-            lock.unlock()
-            detectHaptics(brake: br, throttle: th)
-        default: break
-        }
-    }
-
-    private func detectSurfaceHaptics(kerb: Bool, offtrack: Bool) {
-        guard Telcfg.haptics, let conn = phoneConnection else { return }
-        let now = CFAbsoluteTimeGetCurrent()
+    private func parse(_ data: Data) {
+        guard let parsedState = parser.parse(data: data) else { return }
         
-        if offtrack, now - lastOfftrack > 0.2 {
-            lastOfftrack = now
-            send("{\"haptic\":\"offtrack\",\"intensity\":1.0}", conn)
-        } else if kerb, now - lastKerb > 0.1 {
-            lastKerb = now
-            send("{\"haptic\":\"kerb\"}", conn)
-        }
-    }
+        lock.lock()
+        speedKmh = parsedState.speedKmh
+        lastPacket = CFAbsoluteTimeGetCurrent()
+        lock.unlock()
 
-    private func detectHaptics(brake: Double, throttle: Double) {
-        guard Telcfg.haptics, let conn = phoneConnection else { return }
-        lock.lock(); let fs = frontSlipMin, rs = rearSlipMax; lock.unlock()
-        let now = CFAbsoluteTimeGetCurrent()
-        if brake > 0.25, fs < -Telcfg.lockupSlip, now - lastLockup > 0.12 {
-            lastLockup = now
-            send("{\"haptic\":\"lockup\"}", conn)
-        } else if throttle > 0.35, rs > Telcfg.wheelspinSlip, now - lastWheelspin > 0.15 {
-            lastWheelspin = now
-            let intensity = min(1.0, rs / 0.6)
-            send("{\"haptic\":\"wheelspin\",\"intensity\":\(String(format: "%.2f", intensity))}", conn)
+        if speedKmh > 5.0, let cue = parser.computeHaptics(state: parsedState), let conn = phoneConnection {
+            let now = CFAbsoluteTimeGetCurrent()
+            let lastTime = lastHapticTimes[cue.haptic] ?? 0
+            
+            // Apply debounce thresholds based on haptic cue type
+            let threshold: Double
+            switch cue.haptic {
+            case "lockup": threshold = 0.12
+            case "wheelspin": threshold = 0.15
+            case "kerb": threshold = 0.10
+            case "offtrack": threshold = 0.20
+            default: threshold = 0.10
+            }
+            
+            if now - lastTime > threshold {
+                lastHapticTimes[cue.haptic] = now
+                if let intensity = cue.intensity {
+                    send("{\"haptic\":\"\(cue.haptic)\",\"intensity\":\(String(format: "%.2f", intensity))}", conn)
+                } else {
+                    send("{\"haptic\":\"\(cue.haptic)\"}", conn)
+                }
+            }
         }
     }
 

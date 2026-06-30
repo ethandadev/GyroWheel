@@ -11,13 +11,31 @@ final class MotionManager {
     weak var settings: AppSettings?
     var onSteer: ((Double) -> Void)?
     var onSoftLock: (() -> Void)?
+    /// Fires when an adaptive back-tap is detected (used for paddle shifting).
+    var onBackTap: (() -> Void)?
 
-    private var calibrationOffset: Double = 0    
-    private var lastRawAngle: Double = 0          
-    private var smoothedValue: Double = 0         
-    private var lastOutput: Double = 0            
+    private var calibrationOffset: Double = 0
+    private var lastRawAngle: Double = 0
+    private var smoothedValue: Double = 0
+    private var lastOutput: Double = 0
     private var lastTime: CFTimeInterval = 0
     private var hasFiredSoftLock = false
+
+    // Back-tap detection — keys on jerk (change in user acceleration), with a slowly
+    // adapting ambient baseline so wheel-turning won't trip it but a sharp tap will.
+    private var prevAccel: CMAcceleration?
+    private var jerkBaseline: Double = 0
+    private var lastTapTime: CFTimeInterval = 0
+    private let tapBaselineAlpha = 0.04
+    private let tapDebounce: CFTimeInterval = 0.20
+    private var backTapSuppressUntil: CFTimeInterval = 0
+
+    /// Call when a screen button is tapped to suppress back-tap detection
+    /// for a short window (screen taps jostle the phone and look like a tap).
+    func suppressBackTap(for duration: CFTimeInterval = 0.35) {
+        let t = CACurrentMediaTime() + duration
+        if t > backTapSuppressUntil { backTapSuppressUntil = t }
+    }
     
     // Dynamic grip limit provided by Mac telemetry (1.0 = full lock available, <1.0 = reduced steering available)
     var currentDynamicGripLimit: Double = 1.0
@@ -38,7 +56,8 @@ final class MotionManager {
             guard let motion else { return }
 
             let g = motion.gravity
-            let rawAngle = atan2(g.x, g.y)
+            // Negate X to flip the default steering direction; the Invert toggle still applies on top.
+            let rawAngle = atan2(-g.x, g.y)
             self.lastRawAngle = rawAngle
 
             if self.settings?.recenterAssist == true {
@@ -68,11 +87,44 @@ final class MotionManager {
             self.lastOutput = out
 
             self.onSteer?(out)
+
+            self.detectBackTap(motion)
         }
     }
 
     func stop() {
         manager.stopDeviceMotionUpdates()
+        prevAccel = nil
+        jerkBaseline = 0
+    }
+
+    /// Mirrors BackTapTest's SingleTapEngine, but reuses the existing device-motion
+    /// stream (one CMMotionManager for the whole app). Runs on the serial motion queue.
+    private func detectBackTap(_ motion: CMDeviceMotion) {
+        guard settings?.backTapShiftEnabled == true else { prevAccel = nil; return }
+        guard CACurrentMediaTime() > backTapSuppressUntil else { return }
+        let a = motion.userAcceleration
+        defer { prevAccel = a }
+        guard let p = prevAccel else { return }
+
+        let dx = a.x - p.x, dy = a.y - p.y, dz = a.z - p.z
+        let jerk = (dx * dx + dy * dy + dz * dz).squareRoot()
+
+        let floor = settings?.backTapSensitivity ?? 0.25
+        let ratio = settings?.backTapSharpness ?? 3.5
+        let tripLevel = max(floor, jerkBaseline * ratio)
+        let isSpike = jerk > tripLevel
+
+        // Only non-spike samples move the baseline, so a tap can't inflate its own bar.
+        if !isSpike {
+            jerkBaseline = tapBaselineAlpha * jerk + (1 - tapBaselineAlpha) * jerkBaseline
+        }
+
+        guard isSpike else { return }
+        let now = CACurrentMediaTime()
+        guard now - lastTapTime > tapDebounce else { return }
+        lastTapTime = now
+        onBackTap?()
     }
 
     func calibrate() {

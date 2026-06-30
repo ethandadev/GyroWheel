@@ -7,38 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09AC7F295A6A6F8093F7FA23 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_97B89EC8-D4E0-4476-B78A-A533B9F5DCD5" /* AppSettings.swift */; };
-		1B276434A154B0F75E78BDC3 /* GyroWheelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_38D4E45A-A899-44E0-9D6E-91F29CC6C092" /* GyroWheelApp.swift */; };
-		3735403937CE5060148C44F3 /* MacroButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_EC29719B-6299-4D81-AD6A-327309E99674" /* MacroButtons.swift */; };
-		3DF83BF74AFAD3DD2462CEF0 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_8E67AA86-517D-44C4-9D35-3C4B0CF2B6CF" /* GameController.swift */; };
+		0B2F1440A795E4B24E6A495D /* ThrottleBrakeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_B7C2336E-8647-490C-9255-AD8FC97473C4" /* ThrottleBrakeSlider.swift */; };
+		3327D6C3C4025EA1978EDC3A /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_2015D6DD-6092-4AAB-B154-186A96E67F3F" /* MotionManager.swift */; };
+		4239BC88AD6058CDDCA8607B /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_15416C49-97AF-4A4A-8369-A8E76F940C6C" /* Discovery.swift */; };
+		6392490DA2C7DAD0B81C7CA9 /* HapticsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_DB9D3513-42BB-4B47-99DC-2CE07C1743DC" /* HapticsEngine.swift */; };
+		6791C526739160D237E82EAF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_3E5144EE-6A81-4C80-8E58-9646703EC22D" /* OnboardingView.swift */; };
 		680E3C5F6C6D4667280097B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB470242D93DFA6DB6865F30 /* Assets.xcassets */; };
-		737D1450B6103464628AC804 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_A6772ECA-5671-45DD-B9EC-5221A0BDE89E" /* MotionManager.swift */; };
-		7FEBA7338CC46FD72ADDD81F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_A710D2C4-6230-4539-91A3-B2AFB1087608" /* OnboardingView.swift */; };
-		8B44ACAABC69928D45702174 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_81F38EE6-E1FB-45B7-8932-5F3E63FDBD2F" /* Store.swift */; };
-		A115EF0C798AB246BD3F8DB1 /* Discovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_C851D45D-7AFD-4D3C-924C-81FC67288422" /* Discovery.swift */; };
-		B9378927310147C5FFE1D7E8 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_45143BC4-81E6-4360-BE0A-635BE5087713" /* NetworkManager.swift */; };
-		E63959E5CD186DB43ECF7674 /* HapticsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_08852FC1-4ACE-49F7-8E10-AC91283FAF9B" /* HapticsEngine.swift */; };
-		EE92AF45A03672319628640E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_1E6CCC40-758C-4028-B047-78A882CD5C16" /* SettingsView.swift */; };
-		F83760FCB7902C4F95D1BF10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_BE75E612-2B9F-4ABA-AB3A-465D589B26E3" /* ContentView.swift */; };
-		FF4DB7B2BB4EBF89B32ACA99 /* ThrottleBrakeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_656D69A2-8F6D-41A1-B419-7636451D2C52" /* ThrottleBrakeSlider.swift */; };
+		7DC0709A4A75398E80D0A644 /* MacroButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_0B400CD6-43E4-41A8-943D-4B04A1133862" /* MacroButtons.swift */; };
+		7E06CEDAD433DFBD00C38125 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_D7B957D4-BB46-453D-A593-0EBEF634A683" /* Store.swift */; };
+		7E42B38FFEE36CFB35E69774 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_BD28C57E-1D36-4A04-A52C-2B38F0EABC14" /* ContentView.swift */; };
+		B568C9956112613E8A5C71C8 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_2C84DF93-DAFF-4459-9B05-33A38F61E84C" /* NetworkManager.swift */; };
+		BF3AFBC130CB11FB48EAC09C /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_D6BC592F-0561-49DA-9A5E-E6A4E921FDCC" /* AppSettings.swift */; };
+		D4A733B8115ADC3B2664ECC9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_6B8DFCA4-2AF6-452C-9633-C991CFB8D936" /* SettingsView.swift */; };
+		E1CD317241589645C717D883 /* GyroWheelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_DE5A0F24-BEB6-47A4-9BB7-1CBD33DF862F" /* GyroWheelApp.swift */; };
+		E55C91F9F1148229669D5F04 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_91D8AFFE-4DF0-4DC4-A308-EF08CCF1B680" /* GameController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D8CB876A18C5E79440BFA017 /* GyroWheel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GyroWheel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB470242D93DFA6DB6865F30 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		"TEMP_08852FC1-4ACE-49F7-8E10-AC91283FAF9B" /* HapticsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsEngine.swift; sourceTree = "<group>"; };
-		"TEMP_1E6CCC40-758C-4028-B047-78A882CD5C16" /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		"TEMP_38D4E45A-A899-44E0-9D6E-91F29CC6C092" /* GyroWheelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroWheelApp.swift; sourceTree = "<group>"; };
-		"TEMP_45143BC4-81E6-4360-BE0A-635BE5087713" /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		"TEMP_656D69A2-8F6D-41A1-B419-7636451D2C52" /* ThrottleBrakeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottleBrakeSlider.swift; sourceTree = "<group>"; };
-		"TEMP_81F38EE6-E1FB-45B7-8932-5F3E63FDBD2F" /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		"TEMP_8E67AA86-517D-44C4-9D35-3C4B0CF2B6CF" /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
-		"TEMP_97B89EC8-D4E0-4476-B78A-A533B9F5DCD5" /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
-		"TEMP_A6772ECA-5671-45DD-B9EC-5221A0BDE89E" /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
-		"TEMP_A710D2C4-6230-4539-91A3-B2AFB1087608" /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		"TEMP_BE75E612-2B9F-4ABA-AB3A-465D589B26E3" /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		"TEMP_C851D45D-7AFD-4D3C-924C-81FC67288422" /* Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discovery.swift; sourceTree = "<group>"; };
-		"TEMP_EC29719B-6299-4D81-AD6A-327309E99674" /* MacroButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroButtons.swift; sourceTree = "<group>"; };
+		"TEMP_0B400CD6-43E4-41A8-943D-4B04A1133862" /* MacroButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroButtons.swift; sourceTree = "<group>"; };
+		"TEMP_15416C49-97AF-4A4A-8369-A8E76F940C6C" /* Discovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discovery.swift; sourceTree = "<group>"; };
+		"TEMP_2015D6DD-6092-4AAB-B154-186A96E67F3F" /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		"TEMP_2C84DF93-DAFF-4459-9B05-33A38F61E84C" /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		"TEMP_3E5144EE-6A81-4C80-8E58-9646703EC22D" /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		"TEMP_6B8DFCA4-2AF6-452C-9633-C991CFB8D936" /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		"TEMP_91D8AFFE-4DF0-4DC4-A308-EF08CCF1B680" /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		"TEMP_B7C2336E-8647-490C-9255-AD8FC97473C4" /* ThrottleBrakeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThrottleBrakeSlider.swift; sourceTree = "<group>"; };
+		"TEMP_BD28C57E-1D36-4A04-A52C-2B38F0EABC14" /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		"TEMP_D6BC592F-0561-49DA-9A5E-E6A4E921FDCC" /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		"TEMP_D7B957D4-BB46-453D-A593-0EBEF634A683" /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		"TEMP_DB9D3513-42BB-4B47-99DC-2CE07C1743DC" /* HapticsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsEngine.swift; sourceTree = "<group>"; };
+		"TEMP_DE5A0F24-BEB6-47A4-9BB7-1CBD33DF862F" /* GyroWheelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GyroWheelApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -47,7 +47,7 @@
 			children = (
 				FB470242D93DFA6DB6865F30 /* Assets.xcassets */,
 				961A4A81149D4D2AE8D17011 /* Products */,
-				E8738F5F2FEA23D000D268FA /* Recovered References */,
+				E82063D42FF2D8C200A120CA /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,22 +59,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E8738F5F2FEA23D000D268FA /* Recovered References */ = {
+		E82063D42FF2D8C200A120CA /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_97B89EC8-D4E0-4476-B78A-A533B9F5DCD5" /* AppSettings.swift */,
-				"TEMP_BE75E612-2B9F-4ABA-AB3A-465D589B26E3" /* ContentView.swift */,
-				"TEMP_C851D45D-7AFD-4D3C-924C-81FC67288422" /* Discovery.swift */,
-				"TEMP_8E67AA86-517D-44C4-9D35-3C4B0CF2B6CF" /* GameController.swift */,
-				"TEMP_38D4E45A-A899-44E0-9D6E-91F29CC6C092" /* GyroWheelApp.swift */,
-				"TEMP_08852FC1-4ACE-49F7-8E10-AC91283FAF9B" /* HapticsEngine.swift */,
-				"TEMP_EC29719B-6299-4D81-AD6A-327309E99674" /* MacroButtons.swift */,
-				"TEMP_A6772ECA-5671-45DD-B9EC-5221A0BDE89E" /* MotionManager.swift */,
-				"TEMP_45143BC4-81E6-4360-BE0A-635BE5087713" /* NetworkManager.swift */,
-				"TEMP_A710D2C4-6230-4539-91A3-B2AFB1087608" /* OnboardingView.swift */,
-				"TEMP_1E6CCC40-758C-4028-B047-78A882CD5C16" /* SettingsView.swift */,
-				"TEMP_81F38EE6-E1FB-45B7-8932-5F3E63FDBD2F" /* Store.swift */,
-				"TEMP_656D69A2-8F6D-41A1-B419-7636451D2C52" /* ThrottleBrakeSlider.swift */,
+				"TEMP_D6BC592F-0561-49DA-9A5E-E6A4E921FDCC" /* AppSettings.swift */,
+				"TEMP_BD28C57E-1D36-4A04-A52C-2B38F0EABC14" /* ContentView.swift */,
+				"TEMP_15416C49-97AF-4A4A-8369-A8E76F940C6C" /* Discovery.swift */,
+				"TEMP_91D8AFFE-4DF0-4DC4-A308-EF08CCF1B680" /* GameController.swift */,
+				"TEMP_DE5A0F24-BEB6-47A4-9BB7-1CBD33DF862F" /* GyroWheelApp.swift */,
+				"TEMP_DB9D3513-42BB-4B47-99DC-2CE07C1743DC" /* HapticsEngine.swift */,
+				"TEMP_0B400CD6-43E4-41A8-943D-4B04A1133862" /* MacroButtons.swift */,
+				"TEMP_2015D6DD-6092-4AAB-B154-186A96E67F3F" /* MotionManager.swift */,
+				"TEMP_2C84DF93-DAFF-4459-9B05-33A38F61E84C" /* NetworkManager.swift */,
+				"TEMP_3E5144EE-6A81-4C80-8E58-9646703EC22D" /* OnboardingView.swift */,
+				"TEMP_6B8DFCA4-2AF6-452C-9633-C991CFB8D936" /* SettingsView.swift */,
+				"TEMP_D7B957D4-BB46-453D-A593-0EBEF634A683" /* Store.swift */,
+				"TEMP_B7C2336E-8647-490C-9255-AD8FC97473C4" /* ThrottleBrakeSlider.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -149,19 +149,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09AC7F295A6A6F8093F7FA23 /* AppSettings.swift in Sources */,
-				F83760FCB7902C4F95D1BF10 /* ContentView.swift in Sources */,
-				A115EF0C798AB246BD3F8DB1 /* Discovery.swift in Sources */,
-				3DF83BF74AFAD3DD2462CEF0 /* GameController.swift in Sources */,
-				1B276434A154B0F75E78BDC3 /* GyroWheelApp.swift in Sources */,
-				E63959E5CD186DB43ECF7674 /* HapticsEngine.swift in Sources */,
-				3735403937CE5060148C44F3 /* MacroButtons.swift in Sources */,
-				737D1450B6103464628AC804 /* MotionManager.swift in Sources */,
-				B9378927310147C5FFE1D7E8 /* NetworkManager.swift in Sources */,
-				7FEBA7338CC46FD72ADDD81F /* OnboardingView.swift in Sources */,
-				EE92AF45A03672319628640E /* SettingsView.swift in Sources */,
-				8B44ACAABC69928D45702174 /* Store.swift in Sources */,
-				FF4DB7B2BB4EBF89B32ACA99 /* ThrottleBrakeSlider.swift in Sources */,
+				BF3AFBC130CB11FB48EAC09C /* AppSettings.swift in Sources */,
+				7E42B38FFEE36CFB35E69774 /* ContentView.swift in Sources */,
+				4239BC88AD6058CDDCA8607B /* Discovery.swift in Sources */,
+				E55C91F9F1148229669D5F04 /* GameController.swift in Sources */,
+				E1CD317241589645C717D883 /* GyroWheelApp.swift in Sources */,
+				6392490DA2C7DAD0B81C7CA9 /* HapticsEngine.swift in Sources */,
+				7DC0709A4A75398E80D0A644 /* MacroButtons.swift in Sources */,
+				3327D6C3C4025EA1978EDC3A /* MotionManager.swift in Sources */,
+				B568C9956112613E8A5C71C8 /* NetworkManager.swift in Sources */,
+				6791C526739160D237E82EAF /* OnboardingView.swift in Sources */,
+				D4A733B8115ADC3B2664ECC9 /* SettingsView.swift in Sources */,
+				7E06CEDAD433DFBD00C38125 /* Store.swift in Sources */,
+				0B2F1440A795E4B24E6A495D /* ThrottleBrakeSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Xcode
+**/xcuserdata/
+**/DerivedData/
+ios/build/
+mac/**/build/
+*.xcuserstate
+
+# Android / Gradle
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+
+# Python
+__pycache__/
+*.pyc
+windows/build/
+windows/dist/
+
+# IDE
+.idea/
+
+# Scratch / dumps
+project_dump.txt
+hs_err_pid*.log

@@ -77,6 +77,21 @@ final class AppSettings: ObservableObject {
     /// Vibrate on telemetry-detected lockup / wheelspin (cues sent by the Mac).
     @Published var telemetryHaptics: Bool  { didSet { store.set(telemetryHaptics, forKey: "telemetryHaptics") } }
 
+    // MARK: Paddle Shifter (back-tap)
+    /// Tap the back of the phone to shift. Direction follows throttle: on the gas
+    /// fires an upshift, off the gas (or braking) fires a downshift.
+    @Published var backTapShiftEnabled: Bool { didSet { store.set(backTapShiftEnabled, forKey: "backTapShiftEnabled") } }
+    /// Absolute minimum jerk for a tap to ever register (a "still hand" floor). Higher = less sensitive.
+    @Published var backTapSensitivity: Double { didSet { store.set(backTapSensitivity, forKey: "backTapSensitivity") } }
+    /// A tap's jerk must exceed the live ambient-motion baseline by this factor.
+    /// Higher rejects wheel-turning more aggressively (fewer false shifts).
+    @Published var backTapSharpness: Double { didSet { store.set(backTapSharpness, forKey: "backTapSharpness") } }
+    /// 0-based macro-button index fired by the upshift / downshift paddle.
+    @Published var upshiftButton: Int   { didSet { store.set(upshiftButton, forKey: "upshiftButton") } }
+    @Published var downshiftButton: Int { didSet { store.set(downshiftButton, forKey: "downshiftButton") } }
+    /// Play a haptic on the phone each time a shift fires.
+    @Published var shiftHaptics: Bool   { didSet { store.set(shiftHaptics, forKey: "shiftHaptics") } }
+
     // MARK: Pedals
     @Published var invertPedals: Bool  { didSet { store.set(invertPedals, forKey: "invertPedals") } }
 
@@ -147,6 +162,12 @@ final class AppSettings: ObservableObject {
         brakeGamma       = store.object(forKey: "brakeGamma") as? Double ?? 1.9
         throttleGamma    = store.object(forKey: "throttleGamma") as? Double ?? 1.0
         telemetryHaptics = store.object(forKey: "telemetryHaptics") as? Bool ?? true
+        backTapShiftEnabled = store.object(forKey: "backTapShiftEnabled") as? Bool ?? false
+        backTapSensitivity  = store.object(forKey: "backTapSensitivity") as? Double ?? 0.25
+        backTapSharpness    = store.object(forKey: "backTapSharpness") as? Double ?? 3.5
+        upshiftButton       = min(max(store.object(forKey: "upshiftButton") as? Int ?? 0, 0), kMaxButtons - 1)
+        downshiftButton     = min(max(store.object(forKey: "downshiftButton") as? Int ?? 1, 0), kMaxButtons - 1)
+        shiftHaptics        = store.object(forKey: "shiftHaptics") as? Bool ?? true
         invertPedals     = store.object(forKey: "invertPedals") as? Bool ?? false
         hapticsEnabled   = store.object(forKey: "hapticsEnabled") as? Bool ?? true
         hapticOnConnect  = store.object(forKey: "hapticOnConnect") as? Bool ?? true
@@ -205,6 +226,8 @@ final class AppSettings: ObservableObject {
         autoInvert = true; calibrateOnLaunch = true
         assistLevel = 1; applyAssistPreset()
         brakeGamma = 1.9; throttleGamma = 1.0; telemetryHaptics = true
+        backTapShiftEnabled = false; backTapSensitivity = 0.25; backTapSharpness = 3.5
+        upshiftButton = 0; downshiftButton = 1; shiftHaptics = true
         invertPedals = false; hapticsEnabled = true; hapticOnConnect = true
         accentColorIndex = 0; backgroundStyle = 1; controlOpacity = 1.0
         buttonShape = 0; showAngleReadout = true; throttleColorIndex = 0; brakeColorIndex = 1

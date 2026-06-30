@@ -28,6 +28,10 @@ final class GameController: ObservableObject {
             }
         }
 
+        motion.onBackTap = { [weak self] in
+            self?.handleBackTapShift()
+        }
+
         motion.onSteer = { [weak self] value in
             guard let self else { return }
             var v = value
@@ -113,6 +117,7 @@ final class GameController: ObservableObject {
 
     func buttonDown(_ index: Int) {
         guard buttons.indices.contains(index) else { return }
+        motion.suppressBackTap()
         let mode = ButtonMode(rawValue: settings.buttonModes[index]) ?? .hold
         switch mode {
         case .hold:   setButton(index, true)
@@ -135,5 +140,31 @@ final class GameController: ObservableObject {
         guard buttons.indices.contains(index) else { return }
         buttons[index] = pressed
         network.updateButton(name: "btn\(index + 1)", pressed: pressed)
+    }
+
+    // MARK: - Back-tap paddle shifter
+
+    /// A back-tap was detected. Direction follows throttle (on the gas → upshift,
+    /// off the gas / braking → downshift), then fires the mapped paddle button + haptic.
+    private func handleBackTapShift() {
+        guard settings.backTapShiftEnabled else { return }
+        DispatchQueue.main.async {
+            let up = self.throttle >= 0.01
+            let index = up ? self.settings.upshiftButton : self.settings.downshiftButton
+            self.pulseShift(index)
+            if self.settings.shiftHaptics && self.settings.hapticsEnabled {
+                self.haptics.shift(up: up)
+            }
+        }
+    }
+
+    /// Fire a momentary press on a button regardless of its configured mode (a paddle is
+    /// always a quick tap). Must be called on the main thread.
+    private func pulseShift(_ index: Int) {
+        guard buttons.indices.contains(index) else { return }
+        setButton(index, true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.09) { [weak self] in
+            self?.setButton(index, false)
+        }
     }
 }

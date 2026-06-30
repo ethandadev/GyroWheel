@@ -29,6 +29,16 @@ final class HapticsEngine {
         play([event], on: engine)
     }
 
+    /// Gear shift → one crisp click. Upshifts feel brighter/sharper, downshifts a touch heavier.
+    func shift(up: Bool) {
+        guard supported, let engine else { softLockGen.impactOccurred(intensity: 0.9); return }
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [
+            CHHapticEventParameter(parameterID: .hapticIntensity, value: 1.0),
+            CHHapticEventParameter(parameterID: .hapticSharpness, value: up ? 0.95 : 0.55)
+        ], relativeTime: 0)
+        play([event], on: engine)
+    }
+
     /// Brake lockup → rapid sharp burst (your artificial ABS buzz).
     func lockup() {
         guard supported, let engine else { fallbackGen.impactOccurred(); return }

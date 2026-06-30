@@ -20,6 +20,9 @@ struct SettingsView: View {
                     NavigationLink(destination: PedalsSettingsView()) {
                         Label("Pedal Calibration", systemImage: "slider.vertical.3")
                     }
+                    NavigationLink(destination: PaddleShifterSettingsView()) {
+                        Label("Paddle Shifter", systemImage: "arrow.up.arrow.down")
+                    }
                 }
                 
                 Section("Interface") {
@@ -206,6 +209,44 @@ struct ButtonsSettingsView: View {
             }
         }
         .navigationTitle("Macro Buttons")
+    }
+}
+
+struct PaddleShifterSettingsView: View {
+    @EnvironmentObject var settings: AppSettings
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle("Back-tap to shift", isOn: $settings.backTapShiftEnabled)
+            } header: { Text("Paddle Shifter") } footer: {
+                Text("Tap the back of the phone to shift gears. Direction follows your throttle: on the gas fires an upshift, off the gas (or braking) fires a downshift.")
+            }
+
+            if settings.backTapShiftEnabled {
+                Section("Gear buttons") {
+                    Picker("Upshift fires", selection: $settings.upshiftButton) {
+                        ForEach(0..<kMaxButtons, id: \.self) { i in
+                            Text("Button \(i + 1) — \(settings.buttonLabels[i])").tag(i)
+                        }
+                    }
+                    Picker("Downshift fires", selection: $settings.downshiftButton) {
+                        ForEach(0..<kMaxButtons, id: \.self) { i in
+                            Text("Button \(i + 1) — \(settings.buttonLabels[i])").tag(i)
+                        }
+                    }
+                }
+
+                Section {
+                    slider("Min sensitivity (still hand)", $settings.backTapSensitivity, 0.05...1.00, "%.2f")
+                    slider("Sharpness (reject wheel motion)", $settings.backTapSharpness, 1.5...6.0, "%.1f")
+                    Toggle("Haptic on shift", isOn: $settings.shiftHaptics)
+                } header: { Text("Tuning") } footer: {
+                    Text("Raise sharpness if turning the wheel triggers false shifts; lower min sensitivity for lighter taps. The mapped buttons need a gamepad binding on the receiver (e.g. paddle up/down).")
+                }
+            }
+        }
+        .navigationTitle("Paddle Shifter")
     }
 }
 
